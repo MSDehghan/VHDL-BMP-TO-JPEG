@@ -7,14 +7,28 @@ entity testbench is
 end;
 
 architecture sim of testbench is
-    signal clk                          : STD_LOGIC;
-    signal data                         : pixel_data_type;
+    component bmp_to_jpeg is port (clk, reset : in STD_LOGIC;
+                                    in_mem: in pixel_data_type;
+                                    width, height: in integer);
+    end component;
+    signal clk, reset : STD_LOGIC;
+    signal data : pixel_data_type;
+    signal w,h : integer;
 begin
 
     process
     begin
         clk <= '0'; wait for 5 ns;
         clk <= '1'; wait for 5 ns;
+    end process;
+
+    process
+    begin
+        wait for 20ns;
+        reset <= '1';
+        wait for 20ns;
+        reset <= '0';
+        wait;
     end process;
 
     process
@@ -74,6 +88,10 @@ begin
         report "end!";
         report INTEGER'image(counter);
         file_close(fp);
+        w <= width;
+        h <= height;
         wait;
-    end process;
+    end process;    
+    top : bmp_to_jpeg port map(clk,reset,data,w,h);
+
 end architecture;
