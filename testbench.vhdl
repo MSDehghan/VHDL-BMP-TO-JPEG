@@ -26,7 +26,7 @@ begin
         type char_file is file of character;
         file fp : char_file;
     begin
-        file_open(fp,"E:\\DSD\\Project\\tiger.bmp", READ_MODE);
+        file_open(fp,"tiger.bmp", READ_MODE);
 
         -- Reading bmp header into an array
         for i in 0 to 53 loop
@@ -54,18 +54,21 @@ begin
                 
                 --Blue
                 read(fp, byte);
-                data(j)(i)(2) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
+                data(i)(j)(2) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
 
                 --Green
                 read(fp, byte);
-                data(j)(i)(1) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
+                data(i)(j)(1) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
 
                 --Red
                 read(fp, byte);
-                data(j)(i)(0) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
+                data(i)(j)(0) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
 
                 counter := counter + 3;
             end loop read_col;
+            read(fp, byte);
+            read(fp, byte);
+            counter := counter + 3;
         end loop read_row;
 
         report "end!";
