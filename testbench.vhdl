@@ -51,13 +51,16 @@ begin
 
         read_row : for i in height-1 downto 0 loop
             read_col : for j in 0 to width-1 loop
-                --report "i:" & INTEGER'image(i) & " j:" & INTEGER'image(j);
+                
+                --Blue
                 read(fp, byte);
                 data(j)(i)(2) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
 
+                --Green
                 read(fp, byte);
                 data(j)(i)(1) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
 
+                --Red
                 read(fp, byte);
                 data(j)(i)(0) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
 
