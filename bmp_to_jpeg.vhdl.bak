@@ -11,7 +11,7 @@ begin
     begin
         read_row : for i in height-1 downto 0 loop
             read_col : for j in 0 to width-1 loop
-		-- code!
+                report "kir!";
             end loop read_col;
         end loop read_row; 
     end process;
