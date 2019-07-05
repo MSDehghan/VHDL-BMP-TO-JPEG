@@ -69,7 +69,7 @@ package body jpeg_package is
     end;
 
     function Quantizer (input : in real_MCU; Quantizer_Matrix : in integer_MCU) return integer_MCU is
-        variable output      : real_MCU;
+        variable output      : integer_MCU;
         variable rounded_res : real;
     begin
         for u in 0 to 7 loop

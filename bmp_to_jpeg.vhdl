@@ -29,6 +29,7 @@ begin
     process(current_state, next_state,next_i,next_j,current_i,current_j)
         variable x,y : integer;
         variable rmcu : real_MCU;
+        variable imcu : integer_MCU;
     begin
         case current_state is
             when YUV =>
@@ -70,7 +71,7 @@ begin
                     end loop;
 
                     rmcu := Fourier(rmcu);
-                    rmcu := Quantizer(rmcu,Y_Quantizer_Matrix);
+                    imcu := Quantizer(rmcu,Y_Quantizer_Matrix);
 
                     for i in 0 to 7 loop
                         for j in 0 to 7 loop
