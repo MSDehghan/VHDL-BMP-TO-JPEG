@@ -31,16 +31,17 @@ package body jpeg_package is
 
     function Fourier (input : in integer_MCU) return real_MCU is
         variable output : real_MCU;
-        variable res, temp_cos_1, temp_cos_2: real;
+        variable res, temp_cos_1, temp_cos_2,inner_res: real;
     begin
         for u in 0 to 7 loop
             for v in 0 to 7 loop
                 res := 0.0;
                 for x in 0 to 7 loop
                     for y in 0 to 7 loop
+                        inner_res := real(input(x,y));
                         temp_cos_1 := cos(((2.0 * real(x) + 1.0) * real(u) * MATH_PI) / 16.0);
                         temp_cos_2 := cos(((2.0 * real(y) + 1.0) * real(v) * MATH_PI) / 16.0);
-                        res := res + temp_cos_1 * temp_cos_2;
+                        res := res + (inner_res * temp_cos_1 * temp_cos_2);
                     end loop;
                 end loop;
                 if v = 0 then
