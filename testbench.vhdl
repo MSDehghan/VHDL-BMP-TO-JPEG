@@ -93,5 +93,15 @@ begin
 
         top : bmp_to_jpeg port map(clk,reset,data,w,h);
 
+    process 
+        constant F_char : integer := 11111111;
+        type char_file is file of character;
+        file fp: char_file;
+        variable written_byte: character;
+
+    begin
+        file_open(fp, "output_results.txt", write_mode);
+        written_byte := character'val(255);
+    end process;
 
 end architecture;

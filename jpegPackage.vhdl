@@ -3,6 +3,7 @@ use ieee.numeric_std.all;
 use IEEE.math_real.all;
 
 package jpeg_package is
+
     constant MAX_SIZE : integer := 640;
 
     type pixel_type is array (0 to 2) of std_logic_vector(7 downto 0);
@@ -13,8 +14,11 @@ package jpeg_package is
     type real_data_type is array (0 to MAX_SIZE) of real_row_type;
     type bmp_header is array (0 to 53) of std_logic_vector(7 downto 0);
     type integer_MCU is array (0 to 7 , 0 to 7) of integer;
+    type huffman_tuple is array (0 to 1) of std_logic_vector(7 downto 0);
+    type huffman_array is array (0 to 255) of huffman_tuple;
     type real_MCU is array (0 to 7 , 0 to 7) of real;
     type integer_array is array (0 to 63) of integer;
+    type BYTE is array(7 downto 0) of BIT;
     type state is (YUV,DCT,FINISHED);
 
     function RGB2YUV (input     : in pixel_type) return real_type;
@@ -22,6 +26,8 @@ package jpeg_package is
     function Quantizer (input   : in real_MCU; Quantizer_Matrix : in integer_MCU) return integer_MCU;
     function Zigzag (input : in integer_MCU) return integer_array;
 
+    constant Jpeg_Header_1      :    String      :="";
+    constant Jpeg_Header_2      :    String      :="";
     constant MATH_SQRT1_2       :    real        := 0.70710_67811_86547_52440;
     constant MATH_PI            :    real        := 3.14159_26535_89793_23846;
     constant Y_Quantizer_Matrix :    integer_MCU := ((16, 11, 10, 16, 24, 40, 51, 61),
@@ -32,8 +38,18 @@ package jpeg_package is
                                                     (24, 35, 55, 64, 81, 104, 113, 92),
                                                     (49, 64, 78, 87, 103, 121, 120, 101),
                                                     (72, 92, 95, 98, 112, 100, 103, 99));
+    constant UV_Quantizer_Matrix :    integer_MCU := ((17, 18, 24, 47, 99, 99, 99, 99),
+                                                    (18, 21, 26, 66, 99, 99, 99, 99),
+                                                    (24, 26, 56, 99, 99, 99, 99, 99),
+                                                    (47, 66, 99, 99, 99, 99, 99, 99),
+                                                    (99, 99, 99, 99, 99, 99, 99, 99),
+                                                    (99, 99, 99, 99, 99, 99, 99, 99),
+                                                    (99, 99, 99, 99, 99, 99, 99, 99),
+                                                    (99, 99, 99, 99, 99, 99, 99, 99));
 end package;
+
 package body jpeg_package is
+
     function RGB2YUV (input : in pixel_type) return real_type is
         variable output : real_type;
     begin
@@ -152,4 +168,5 @@ package body jpeg_package is
         output(63) := input(7,7);
         return output;
     end;
+    
 end package body jpeg_package;
