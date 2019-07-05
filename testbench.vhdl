@@ -96,12 +96,13 @@ begin
     process 
         constant F_char : integer := 11111111;
         type char_file is file of character;
-        file fp: char_file;
-        variable written_byte: character;
-
+        file fp, fpr: char_file;
+        variable byte: character;
     begin
+        file_open(fpr, "part1.hex", read_mode);
         file_open(fp, "output_results.txt", write_mode);
-        written_byte := character'val(255);
+        read(fpr, byte);
+        write(fp,byte);
     end process;
 
 end architecture;
