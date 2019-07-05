@@ -17,9 +17,9 @@ package body jpeg_package is
     function RGB2YUV (input : in pixel_type) return real_type is
         variable output : real_type;
     begin
-        output(0) := (0.257 * real(to_integer(unsigned(input(0))))) + (0.504 * real(to_integer(unsigned(input(1))))) + (0.098 * real(to_integer(unsigned(input(2))))) + 16.0;
-        output(1) := (0.439 * real(to_integer(unsigned(input(0))))) - (0.368 * real(to_integer(unsigned(input(1))))) - (0.071 * real(to_integer(unsigned(input(2))))) + 128.0;
-        output(2) := -(0.148 * real(to_integer(unsigned(input(0))))) - (0.291 * real(to_integer(unsigned(input(1))))) + (0.439 * real(to_integer(unsigned(input(2))))) + 128.0;
+        output(0) := (0.299 * real(to_integer(unsigned(input(0))))) + (0.587 * real(to_integer(unsigned(input(1))))) + (0.114 * real(to_integer(unsigned(input(2)))));
+        output(1) := (0.5 * real(to_integer(unsigned(input(0))))) - (0.418688 * real(to_integer(unsigned(input(1))))) - (0.081312 * real(to_integer(unsigned(input(2))))) + 128.0;
+        output(2) := -(0.168736 * real(to_integer(unsigned(input(0))))) - (0.331264 * real(to_integer(unsigned(input(1))))) + (0.5 * real(to_integer(unsigned(input(2))))) + 128.0;
         return output;
     end;
 end package body jpeg_package;

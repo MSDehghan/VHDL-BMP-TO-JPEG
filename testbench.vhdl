@@ -12,7 +12,7 @@ architecture sim of testbench is
             width, height : in integer);
     end component;
     signal clk, reset : STD_LOGIC;
-    signal data       : pixel_data_type;
+    signal data       : pixel_data_type := (others => (others => (others => (others => '0'))));
     signal w,h        : integer;
 begin
 
@@ -90,6 +90,8 @@ begin
         h <= height;
         wait;
     end process;
+
         top : bmp_to_jpeg port map(clk,reset,data,w,h);
+
 
 end architecture;
