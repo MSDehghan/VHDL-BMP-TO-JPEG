@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 entity tb is
 end tb;
 architecture simul of tb is
-    signal input : integer_MCU;
+    signal input, output2 : integer_MCU;
     signal output : real_MCU;
 begin   
     input (0,0) <= -76;
@@ -73,7 +73,9 @@ begin
     input (7,7) <= -34;
     process begin
         wait for 5 ns;
-        output <=Fourier(input);
+        output <= Fourier(input);
+	    wait for 5 ns;
+        output2 <= Quantizer (output, Y_Quantizer_Matrix);
         wait;
     end process; 
 end simul ;     
