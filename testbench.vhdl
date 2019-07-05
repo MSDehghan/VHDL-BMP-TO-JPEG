@@ -8,12 +8,12 @@ end;
 
 architecture sim of testbench is
     component bmp_to_jpeg is port (clk, reset : in STD_LOGIC;
-                                    in_mem: in pixel_data_type;
-                                    width, height: in integer);
+            in_mem        : in pixel_data_type;
+            width, height : in integer);
     end component;
     signal clk, reset : STD_LOGIC;
-    signal data : pixel_data_type;
-    signal w,h : integer;
+    signal data       : pixel_data_type;
+    signal w,h        : integer;
 begin
 
     process
@@ -22,11 +22,9 @@ begin
         clk <= '1'; wait for 5 ns;
     end process;
 
-    process
-    begin
-        wait for 20ns;
+    process begin
         reset <= '1';
-        wait for 20ns;
+        wait for 10 ns;
         reset <= '0';
         wait;
     end process;
@@ -65,7 +63,7 @@ begin
 
         read_row : for i in height-1 downto 0 loop
             read_col : for j in 0 to width-1 loop
-                
+
                 --Blue
                 read(fp, byte);
                 data(i)(j)(2) <= std_logic_vector(to_unsigned(natural(character'pos(byte)), 8));
@@ -91,7 +89,7 @@ begin
         w <= width;
         h <= height;
         wait;
-    end process;    
-    top : bmp_to_jpeg port map(clk,reset,data,w,h);
+    end process;
+        top : bmp_to_jpeg port map(clk,reset,data,w,h);
 
 end architecture;
