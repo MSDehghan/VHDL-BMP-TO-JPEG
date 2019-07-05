@@ -72,6 +72,7 @@ begin
     input (7,6) <= -50;
     input (7,7) <= -34;
     process begin
+        wait for 5 ns;
         output <=Fourier(input);
         wait;
     end process; 
