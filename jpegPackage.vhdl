@@ -14,7 +14,6 @@ package jpeg_package is
     type bmp_header is array (0 to 53) of std_logic_vector(7 downto 0);
     type integer_MCU is array (0 to 7 , 0 to 7) of integer;
     type real_MCU is array (0 to 7 , 0 to 7) of real;
-    <<<<<<< HEAD
     type state is (YUV,DCT,FINISHED);
     function RGB2YUV (input     : in pixel_type) return real_type;
     function Fourier (input     : in real_MCU) return real_MCU;
