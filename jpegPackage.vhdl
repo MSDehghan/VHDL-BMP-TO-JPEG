@@ -17,7 +17,7 @@ package jpeg_package is
     type state is (YUV,DCT,FINISHED);
     function RGB2YUV (input     : in pixel_type) return real_type;
     function Fourier (input     : in real_MCU) return real_MCU;
-    function Quantizer (input   : in real_MCU; Quantizer_Matrix : in integer_MCU) return integer_MCU;
+    function Quantizer (input   : in real_MCU; Quantizer_Matrix : in integer_MCU) return real_MCU;
     constant MATH_SQRT1_2       :    real        := 0.70710_67811_86547_52440;
     constant MATH_PI            :    real        := 3.14159_26535_89793_23846;
     constant Y_Quantizer_Matrix :    integer_MCU := ((16, 11, 10, 16, 24, 40, 51, 61),
@@ -66,14 +66,14 @@ package body jpeg_package is
         return output;
     end;
 
-    function Quantizer (input : in real_MCU; Quantizer_Matrix : in integer_MCU) return integer_MCU is
-        variable output      : integer_MCU;
+    function Quantizer (input : in real_MCU; Quantizer_Matrix : in integer_MCU) return real_MCU is
+        variable output      : real_MCU;
         variable rounded_res : real;
     begin
         for u in 0 to 7 loop
             for v in 0 to 7 loop
                 rounded_res := (input(u,v) / real(Quantizer_Matrix(u,v)));
-                output(u,v) := integer(rounded_res);
+                output(u,v) := round(rounded_res);
             end loop;
         end loop;
         return output;
