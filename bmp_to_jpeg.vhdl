@@ -70,10 +70,11 @@ begin
                     end loop;
 
                     rmcu := Fourier(rmcu);
-                    
+                    rmcu := Quantizer(rmcu,Y_Quantizer_Matrix);
+
                     for i in 0 to 7 loop
                         for j in 0 to 7 loop
-                            yuv_mem(x+i)(x+j)(d) <= rmcu(i,j);
+                            yuv_mem(x+i)(y+j)(d) <= rmcu(i,j);
                         end loop;
                     end loop;
                 end loop;

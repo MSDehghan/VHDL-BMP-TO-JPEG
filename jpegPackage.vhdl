@@ -19,9 +19,7 @@ package jpeg_package is
 
     function RGB2YUV (input     : in pixel_type) return real_type;
     function Fourier (input     : in real_MCU) return real_MCU;
-    function Quantizer (input   : in real_MCU; Quantizer_Matrix : in integer_MCU) return integer_MCU;
-    function Zigzag (input   : in integer_MCU) return integer_array;
-
+    function Quantizer (input   : in real_MCU; Quantizer_Matrix : in integer_MCU) return integers_MCU;
     constant MATH_SQRT1_2       :    real        := 0.70710_67811_86547_52440;
     constant MATH_PI            :    real        := 3.14159_26535_89793_23846;
     constant Y_Quantizer_Matrix :    integer_MCU := ((16, 11, 10, 16, 24, 40, 51, 61),
@@ -71,7 +69,7 @@ package body jpeg_package is
     end;
 
     function Quantizer (input : in real_MCU; Quantizer_Matrix : in integer_MCU) return integer_MCU is
-        variable output      : integer_MCU;
+        variable output      : real_MCU;
         variable rounded_res : real;
     begin
         for u in 0 to 7 loop
