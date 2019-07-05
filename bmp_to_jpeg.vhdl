@@ -28,6 +28,7 @@ begin
 
     process(current_state, next_state,next_i,next_j,current_i,current_j)
         variable x,y : integer;
+        variable rmcu : real_MCU;
     begin
         case current_state is
             when YUV =>
@@ -44,7 +45,13 @@ begin
                 if y >= width then
                     y := 0;
                     x := x + 8;
-                    if x >= height then next_state <= DCT; else next_state <= YUV; end if;
+                    if x >= height then
+                        next_state <= DCT;
+                        x := 0;
+                        y := 0;
+                    else
+                        next_state <= YUV;
+                    end if;
                 else
                     next_state <= YUV;
                 end if;
@@ -52,9 +59,44 @@ begin
                 next_i <= x;
                 next_j <= y;
             when DCT =>
-                next_state <= DCT;
+                x := current_i;
+                y := current_j;
+
+                for d in 0 to 2 loop
+                    for i in 0 to 7 loop
+                        for j in 0 to 7 loop
+                            rmcu(i,j) := yuv_mem(x+i)(y+j)(d);
+                        end loop;
+                    end loop;
+
+                    rmcu := Fourier(rmcu);
+                    
+                    for i in 0 to 7 loop
+                        for j in 0 to 7 loop
+                            yuv_mem(x+i)(x+j)(d) <= rmcu(i,j);
+                        end loop;
+                    end loop;
+                end loop;
+
+                y := y + 8;
+                if y >= width then
+                    y := 0;
+                    x := x + 8;
+                    if x >= height then
+                        next_state <= FINISHED;
+                        x := 0;
+                        y := 0;
+                    else
+                        next_state <= DCT;
+                    end if;
+                else
+                    next_state <= DCT;
+                end if;
+
+                next_i <= x;
+                next_j <= y;
             when others =>
-                next_state <= YUV;
+                next_state <= FINISHED;
         end case;
     end process;
 

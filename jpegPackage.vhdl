@@ -7,17 +7,17 @@ package jpeg_package is
     constant  MATH_SQRT1_2: real := 0.70710_67811_86547_52440; 
     constant  MATH_PI :  real := 3.14159_26535_89793_23846;
     type pixel_type is array (0 to 2) of std_logic_vector(7 downto 0);
-    type real_type is array (0 to 2) of REAL;
     type pixel_row_type is array (0 to MAX_SIZE) of pixel_type;
-    type real_row_type is array (0 to MAX_SIZE) of real_type;
     type pixel_data_type is array (0 to MAX_SIZE) of pixel_row_type;
+    type real_type is array (0 to 2) of REAL;
+    type real_row_type is array (0 to MAX_SIZE) of real_type;
     type real_data_type is array (0 to MAX_SIZE) of real_row_type;
     type bmp_header is array (0 to 53) of std_logic_vector(7 downto 0);
     type integer_MCU is array (0 to 7 , 0 to 7) of integer;
     type real_MCU is array (0 to 7 , 0 to 7) of real;
-    type state is (YUV,DCT);
+    type state is (YUV,DCT,FINISHED);
     function RGB2YUV (input : in pixel_type) return real_type;
-    function Fourier (input : in integer_MCU) return real_MCU;
+    function Fourier (input : in real_MCU) return real_MCU;
 end package;
 package body jpeg_package is
     function RGB2YUV (input : in pixel_type) return real_type is
@@ -29,7 +29,7 @@ package body jpeg_package is
         return output;
     end;
 
-    function Fourier (input : in integer_MCU) return real_MCU is
+    function Fourier (input : in real_MCU) return real_MCU is
         variable output : real_MCU;
         variable res, temp_cos_1, temp_cos_2,inner_res: real;
     begin
@@ -38,7 +38,7 @@ package body jpeg_package is
                 res := 0.0;
                 for x in 0 to 7 loop
                     for y in 0 to 7 loop
-                        inner_res := real(input(x,y));
+                        inner_res := input(x,y);
                         temp_cos_1 := cos(((2.0 * real(x) + 1.0) * real(u) * MATH_PI) / 16.0);
                         temp_cos_2 := cos(((2.0 * real(y) + 1.0) * real(v) * MATH_PI) / 16.0);
                         res := res + (inner_res * temp_cos_1 * temp_cos_2);
