@@ -35,6 +35,7 @@ entity example_file_io_tb is
         write(fp, character'val(to_integer(unsigned(hlv(7 downto 0)))));
         write(fp, character'val(to_integer(unsigned(wlv(15 downto 8)))));
         write(fp, character'val(to_integer(unsigned(wlv(7 downto 0)))));
+        
         file_open(fpr, "part2.hex", read_mode);
         while not endfile(fpr) loop
         read(fpr, byte);

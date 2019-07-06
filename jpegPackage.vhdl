@@ -25,6 +25,7 @@ package jpeg_package is
     function Fourier (input     : in real_MCU) return real_MCU;
     function Quantizer (input   : in real_MCU; Quantizer_Matrix : in integer_MCU) return integer_MCU;
     function Zigzag (input : in integer_MCU) return integer_array;
+    function CalcBits (input : in integer) return huffman_tuple;
 
     constant Jpeg_Header_1      :    String      :="";
     constant Jpeg_Header_2      :    String      :="";
@@ -206,6 +207,23 @@ package body jpeg_package is
         output(61) := input(6,7);
         output(62) := input(7,6);
         output(63) := input(7,7);
+        return output;
+    end;
+
+    function CalcBits (input : in integer) return huffman_tuple is
+        variable output :huffman_tuple;
+        variable temp : integer;
+        variable absin : integer;
+    begin
+        if input < 0 then
+            temp := input - 1;
+            absin := -input;
+        else
+            temp := input;
+            absin := input;
+        end if;
+        output(1) := integer(ceil(log2(real(absin))));
+        output(0) := temp;
         return output;
     end;
     

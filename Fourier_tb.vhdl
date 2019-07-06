@@ -7,6 +7,7 @@ architecture simul of tb is
     signal quantizer_res : integer_MCU;
     signal input, fourier_res : real_MCU;
     signal zigzag_res : integer_array;
+    signal calc_bits_res : huffman_tuple;
 begin   
     input (0,0) <= real(-76);
     input (0,1) <= real(-73);
@@ -79,6 +80,8 @@ begin
         quantizer_res <= Quantizer (fourier_res, Y_Quantizer_Matrix);
         wait for 5 ns;
         zigzag_res <= Zigzag(quantizer_res);
+        wait for 5 ns;
+        calc_bits_res <= CalcBits(-24);
         wait;
     end process; 
 end simul ;     
